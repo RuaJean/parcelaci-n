@@ -63,7 +63,7 @@ export default function PropertyListing({ lotNumber }) {
   const property = propertyData[activeParcel];
   if (!property) {
     return <p>No se encontraron datos para esta parcela.</p>;
-  }
+  } 
 
   return (
     <div className={styles['property-listing']}>
