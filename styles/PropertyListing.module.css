@@ -1,0 +1,133 @@
+.property-listing {
+    /* max-width: 105rem; */
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .property-image {
+    position: relative;
+  }
+  
+  .image {
+    width: 100%;
+    height: 14rem;
+    object-fit: cover;
+  }
+  
+  .icon-container {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    padding: 0.5rem;
+  }
+  
+  .icon-left {
+    top: 1rem;
+    left: 1rem;
+  }
+  
+  .icon-right {
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .date-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background-color: white;
+    border-radius: 50%;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  
+  .pagination {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.25rem;
+  }
+  
+  .pagination-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+  }
+  
+  .pagination-dot-active {
+    background-color: #f97316; /* bg-orange-500 */
+  }
+  
+  .pagination-dot-inactive {
+    background-color: white;
+  }
+  
+  .property-details {
+    padding: 1rem;
+  }
+  
+  .property-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .property-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .heart-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #9ca3af; /* text-gray-400 */
+  }
+  
+  .lot-number {
+    font-size: 0.875rem;
+    color: #4b5563; /* text-gray-600 */
+    margin-bottom: 0.5rem;
+  }
+  
+  .property-size {
+    font-size: 0.75rem;
+    color: #6b7280; /* text-gray-500 */
+    margin-bottom: 1rem;
+  }
+  
+  .details-container {
+    background-color: #f3f4f6; /* bg-gray-100 */
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .details-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .details-table {
+    width: 100%;
+    font-size: 0.875rem;
+  }
+  
+  .table-cell {
+    padding: 0.25rem 0;
+    color: #4b5563; /* text-gray-600 */
+  }
+  /* .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  } */
+  
