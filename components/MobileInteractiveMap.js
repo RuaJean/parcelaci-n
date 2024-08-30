@@ -6,6 +6,9 @@ const MobileInteractiveMap = () => {
   const [error, setError] = useState(false);
   const [activeParcel, setActiveParcel] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
+  const [zoomLevel, setZoomLevel] = useState(2); // Controla el nivel de zoom
+  const mapContainerRef = useRef(null); // Referencia al contenedor del mapa
+  const mapRef = useRef(null); // Referencia al SVG
   const propertyListingRef = useRef(null);
   const closeButtonRef = useRef(null);
 
@@ -16,6 +19,13 @@ const MobileInteractiveMap = () => {
       const svgDoc = mapElement.contentDocument;
 
       if (!svgDoc) {
+        setError(true);
+        return;
+      }
+
+      const rootSvgElement = svgDoc.documentElement;
+
+      if (!rootSvgElement || typeof rootSvgElement.getBBox !== 'function') {
         setError(true);
         return;
       }
@@ -73,10 +83,17 @@ const MobileInteractiveMap = () => {
 
         img.addEventListener('click', handleClick);
 
-        svgDoc.documentElement.appendChild(img);
+        rootSvgElement.appendChild(img);
 
         area.classList.add(styles.clickable);
       });
+
+      // Centramos el mapa después de cargarlo
+      const rootBBox = rootSvgElement.getBBox();
+      mapContainerRef.current.scrollTo(
+        (rootBBox.width * zoomLevel - mapContainerRef.current.clientWidth) / 2,
+        (rootBBox.height * zoomLevel - mapContainerRef.current.clientHeight) / 2
+      );
     };
 
     const handleError = () => {
@@ -98,20 +115,17 @@ const MobileInteractiveMap = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Verificar si el clic no fue dentro de PropertyListing
       if (
         propertyListingRef.current &&
         !propertyListingRef.current.contains(event.target) &&
         !closeButtonRef.current.contains(event.target)
       ) {
-        setActiveParcel(null); // Cierra el componente PropertyListing
+        setActiveParcel(null);
       }
     };
 
-    // Se añade el listener al documento
     document.addEventListener('mousedown', handleClickOutside);
 
-    // Limpiar el listener al desmontar el componente
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -121,18 +135,51 @@ const MobileInteractiveMap = () => {
     setActiveParcel(null);
   };
 
+  const handleZoomIn = () => {
+    setZoomLevel((prevZoom) => Math.min(prevZoom + 0.5, 5)); // Límite superior de zoom
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel((prevZoom) => Math.max(prevZoom - 0.5, 1)); // Límite inferior de zoom
+  };
+
+  useEffect(() => {
+    const svgDoc = mapRef.current?.contentDocument;
+    const rootSvgElement = svgDoc?.documentElement;
+
+    if (rootSvgElement && typeof rootSvgElement.getBBox === 'function') {
+      rootSvgElement.style.transform = `scale(${zoomLevel})`;
+      rootSvgElement.style.transformOrigin = 'top left'; // Escalar desde la esquina superior izquierda
+
+      // Ajuste para mantener el mapa visible al hacer zoom
+      const rootBBox = rootSvgElement.getBBox();
+
+      mapContainerRef.current.scrollTo(
+        (rootBBox.width * zoomLevel - mapContainerRef.current.clientWidth) / 3,
+        (rootBBox.height * zoomLevel - mapContainerRef.current.clientHeight) / 3
+      );
+    }
+  }, [zoomLevel]);
+
   return (
     <>
       {error ? (
         <p className={styles.errorMessage}>Error al cargar el mapa. Verifica la ruta del archivo SVG.</p>
       ) : (
-        <>
-          <object
-            id="map"
-            data="/mapID.svg"
-            type="image/svg+xml"
-            className={styles.mapSvg}
-          ></object>
+        <div className={styles.mapWrapper}>
+          <div className={styles.zoomControls}>
+            <button className={styles.zoomButton} onClick={handleZoomIn}>+</button>
+            <button className={styles.zoomButton} onClick={handleZoomOut}>-</button>
+          </div>
+          <div className={styles.mapContainer} ref={mapContainerRef}>
+            <object
+              id="map"
+              data="/mapID.svg"
+              type="image/svg+xml"
+              className={styles.mapSvg}
+              ref={mapRef}
+            ></object>
+          </div>
           {activeParcel && (
             <div
               ref={propertyListingRef}
@@ -148,8 +195,10 @@ const MobileInteractiveMap = () => {
               </button>
             </div>
           )}
-        </>
+        </div>
       )}
     </>
   );
-};export default MobileInteractiveMap;
+};
+
+export default MobileInteractiveMap;

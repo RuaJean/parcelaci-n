@@ -8,6 +8,7 @@ const DesktopInteractiveMap = () => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const propertyListingRef = useRef(null);
   const closeButtonRef = useRef(null);
+  const originalColorsRef = useRef({}); // Para almacenar los colores originales
 
   useEffect(() => {
     const mapElement = document.getElementById('map');
@@ -22,23 +23,24 @@ const DesktopInteractiveMap = () => {
 
       const parcels = Array.from(svgDoc.querySelectorAll('[id^="parcela_roja_"]'));
 
+      // Guardar los colores originales
+      parcels.forEach((area) => {
+        const parcelId = area.getAttribute('id').replace('parcela_roja_', '');
+        originalColorsRef.current[parcelId] = area.style.fill || '#ff4f4f'; // Guarda el color original
+      });
+
       parcels.forEach((area) => {
         const parcelId = area.getAttribute('id').replace('parcela_roja_', '');
 
         const handleClick = () => {
-          // Cerrar todos los popups existentes
-          closeAllPopups(svgDoc);
+          // Restablecer el color de todas las áreas rojas al color original
+          resetAllParcelColors(svgDoc, parcels);
 
           // Actualizar la parcela activa
           setActiveParcel(parcelId);
-        
-          // const svgDoc = document.getElementById('map').contentDocument;
-          // if (svgDoc) {
-          //   // Restablecer el color de la parcela activa al color original (asumo que era negro, puedes cambiarlo si era otro color)
-          //   changeParcelColor(svgDoc, activeParcel, '#000000');
-          //   closeAllPopups(svgDoc);
-          // }
-          // setActiveParcel(null);
+
+          // Cerrar todos los popups existentes
+          closeAllPopups(svgDoc);
 
           // Obtener la posición del popup temporal asociado al área
           const tempPopup = svgDoc.getElementById(`popup_${parcelId}`);
@@ -54,7 +56,7 @@ const DesktopInteractiveMap = () => {
           }
 
           // Cambiar el color de la parcela seleccionada
-          changeParcelColor(svgDoc, parcelId, '#000000'); // Rojo para la parcela activa
+          changeParcelColor(svgDoc, parcelId, '#8B0000'); // Rojo para la parcela activa
 
           // Crear un nuevo popup persistente para el área clicada
           createPersistentPopup(svgDoc, parcelId);
@@ -144,11 +146,20 @@ const DesktopInteractiveMap = () => {
     }
   };
 
+  const resetAllParcelColors = (svgDoc, parcels) => {
+    parcels.forEach((area) => {
+      const parcelId = area.getAttribute('id').replace('parcela_roja_', '');
+      const originalColor = originalColorsRef.current[parcelId] || '##ff4f4f';
+      changeParcelColor(svgDoc, parcelId, originalColor); // Restablece el color original
+    });
+  };
+
   const handleCloseListing = () => {
     const svgDoc = document.getElementById('map').contentDocument;
     if (svgDoc) {
-      // Restablecer el color de la parcela activa al color original (asumo que era negro, puedes cambiarlo si era otro color)
-      changeParcelColor(svgDoc, activeParcel, '#ff4f4f');
+      // Restablecer el color de todas las áreas rojas al color original
+      const parcels = Array.from(svgDoc.querySelectorAll('[id^="parcela_roja_"]'));
+      resetAllParcelColors(svgDoc, parcels);
       closeAllPopups(svgDoc);
     }
     setActiveParcel(null);
@@ -168,7 +179,6 @@ const DesktopInteractiveMap = () => {
           ></object>
           {activeParcel && (
             <div 
-            
               ref={propertyListingRef}
               className={styles.propertyListingContainer}
               style={{ top: `${popupPosition.top}px`, left: `${popupPosition.left}px` }}
