@@ -1,0 +1,90 @@
+{
+    "1": {
+      "price": "$280,000,000",
+      "location": "Antioquia, Colombia",
+      "size": "Hectáreas 5",
+      "image": "/finca1.png",
+      "details": {
+        "type": "Venta de Finca",
+        "plotArea": "5 Hectáreas",
+        "listedBy": "Agente",
+        "length": "500 Metros",
+        "breadth": "100 Metros",
+        "facing": "Sur"
+      },
+      "propertyDetails": {
+        "title": "Hermosa Finca en Zona Cafetera",
+        "address": "Vereda El Tambo, Antioquia, Colombia",
+        "bedrooms": 3,
+        "bathrooms": 2,
+        "squareFeet": "250",
+        "description": "Esta hermosa finca en la zona cafetera ofrece un ambiente tranquilo y natural. Cuenta con 5 hectáreas de terreno cultivable, una casa principal con 3 habitaciones, 2 baños y una terraza con vistas espectaculares. Ideal para producción agrícola o como un lugar de retiro.",
+        "features": [
+          "Terreno apto para cultivo de café",
+          "Casa principal con amplia terraza",
+          "Agua de nacimiento y sistema de riego",
+          "Árboles frutales y zonas verdes",
+          "Cercanía a vías principales"
+        ]
+      }
+    },
+    "2": {
+      "price": "$350,000,000",
+      "location": "Cundinamarca, Colombia",
+      "size": "Hectáreas 7",
+      "image": "/finca2.png",
+      "details": {
+        "type": "Venta de Finca",
+        "plotArea": "7 Hectáreas",
+        "listedBy": "Propietario",
+        "length": "700 Metros",
+        "breadth": "100 Metros",
+        "facing": "Norte"
+      },
+      "propertyDetails": {
+        "title": "Finca Ganadera en Cundinamarca",
+        "address": "Fusagasugá, Cundinamarca, Colombia",
+        "bedrooms": 4,
+        "bathrooms": 3,
+        "squareFeet": "300",
+        "description": "Finca ideal para actividades ganaderas, ubicada en Fusagasugá, Cundinamarca. Con 7 hectáreas de terreno, esta propiedad incluye corrales, pastos mejorados, y una casa principal cómoda con 4 habitaciones y 3 baños.",
+        "features": [
+          "Corrales y pastos mejorados",
+          "Casa principal con zona BBQ",
+          "Agua potable y electricidad",
+          "Vía de acceso pavimentada",
+          "Cerca de la ciudad"
+        ]
+      }
+    },
+    "3": {
+      "price": "$400,000,000",
+      "location": "Valle del Cauca, Colombia",
+      "size": "Hectáreas 10",
+      "image": "/finca3.png",
+      "details": {
+        "type": "Venta de Parcela",
+        "plotArea": "10 Hectáreas",
+        "listedBy": "Agente",
+        "length": "1000 Metros",
+        "breadth": "100 Metros",
+        "facing": "Oeste"
+      },
+      "propertyDetails": {
+        "title": "Parcela con Cultivos en Producción",
+        "address": "Roldanillo, Valle del Cauca, Colombia",
+        "bedrooms": 2,
+        "bathrooms": 1,
+        "squareFeet": "150",
+        "description": "Parcela de 10 hectáreas en Roldanillo, Valle del Cauca, dedicada a cultivos de caña y frutales. Incluye una casa pequeña para el administrador, un pozo de agua y sistema de riego. Ideal para inversión agrícola.",
+        "features": [
+          "Cultivos de caña y frutales en producción",
+          "Casa para el administrador",
+          "Pozo de agua y sistema de riego",
+          "Acceso a carretera principal",
+          "Zona de alto rendimiento agrícola"
+        ]
+      }
+    }
+  }
+  

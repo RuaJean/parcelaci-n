@@ -1,8 +1,10 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/router';
 import PropertyListing from '../components/PropertyListing';
 import styles from '../styles/DesktopInteractiveMap.module.css';
 
-// Variable global para manejar el mouseout
 let activeParcelMouseOut = null;
 
 const DesktopInteractiveMap = () => {
@@ -11,8 +13,9 @@ const DesktopInteractiveMap = () => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const propertyListingRef = useRef(null);
   const closeButtonRef = useRef(null);
-  const originalColor = '#ff4f4f'; // Color original de las parcelas
-  const hoverAndClickColor = '#8B0000'; // Color al pasar el mouse o hacer clic
+  const router = useRouter();
+  const originalColor = '#ff4f4f';
+  const hoverAndClickColor = '#8B0000';
 
   useEffect(() => {
     const mapElement = document.getElementById('map');
@@ -27,7 +30,6 @@ const DesktopInteractiveMap = () => {
 
       const parcels = Array.from(svgDoc.querySelectorAll('[id^="parcela_roja_"]'));
 
-      // Establecer el color original de todas las parcelas al cargar el mapa
       parcels.forEach((area) => {
         const parcelId = area.getAttribute('id').replace('parcela_roja_', '');
         changeParcelColor(svgDoc, parcelId, originalColor);
@@ -37,53 +39,47 @@ const DesktopInteractiveMap = () => {
         const parcelId = area.getAttribute('id').replace('parcela_roja_', '');
 
         const handleClick = () => {
-          // Restablecer el color de todas las áreas rojas al color original
           resetAllParcelColors(svgDoc, parcels);
-
-          // Actualizar la parcela activa
           setActiveParcel(parcelId);
-
-          // Actualizar la variable global activeParcelMouseOut
           activeParcelMouseOut = parcelId;
-
-          // Cerrar todos los popups existentes
           closeAllPopups(svgDoc);
 
-          // Obtener la posición del popup temporal asociado al área
           const tempPopup = svgDoc.getElementById(`popup_${parcelId}`);
           if (tempPopup) {
             const bbox = tempPopup.getBoundingClientRect();
             const svgRect = mapElement.getBoundingClientRect();
-
-            // Calcular la posición para PropertyListing justo a la derecha del popup
             const top = svgRect.top + window.scrollY + bbox.top - svgRect.top;
-            const left = svgRect.left + window.scrollX + bbox.left - svgRect.left + bbox.width + 10; // 10px a la derecha del popup
-
+            const left = svgRect.left + window.scrollX + bbox.left - svgRect.left + bbox.width + 10;
             setPopupPosition({ top, left });
           }
 
-          // Cambiar el color de la parcela seleccionada
-          changeParcelColor(svgDoc, parcelId, hoverAndClickColor); // Rojo oscuro para la parcela activa
-
-          // Crear un nuevo popup persistente para el área clicada
+          changeParcelColor(svgDoc, parcelId, hoverAndClickColor);
           createPersistentPopup(svgDoc, parcelId);
         };
 
-        area.addEventListener('click', handleClick);
-
-        area.addEventListener('mouseover', () => {
-          // Cambiar el color de la parcela al pasar el mouse solo si no es la activa
+        const handleMouseOver = () => {
           if (parcelId !== activeParcel) {
             changeParcelColor(svgDoc, parcelId, hoverAndClickColor);
           }
-        });
+          const tempPopup = svgDoc.getElementById(`popup_${parcelId}`);
+          if (tempPopup) {
+            tempPopup.style.display = 'block'; // Mostrar el popup temporal
+          }
+        };
 
-        area.addEventListener('mouseout', () => {
-          // Cambiar el color de la parcela solo si no es la activa ni la manejada en el mouseout
+        const handleMouseOut = () => {
           if (parcelId !== activeParcelMouseOut) {
             changeParcelColor(svgDoc, parcelId, originalColor);
           }
-        });
+          const tempPopup = svgDoc.getElementById(`popup_${parcelId}`);
+          if (tempPopup) {
+            tempPopup.style.display = 'none'; // Ocultar el popup temporal
+          }
+        };
+
+        area.addEventListener('click', handleClick);
+        area.addEventListener('mouseover', handleMouseOver);
+        area.addEventListener('mouseout', handleMouseOut);
 
         createTemporaryPopup(svgDoc, parcelId, area);
       });
@@ -141,7 +137,6 @@ const DesktopInteractiveMap = () => {
   };
 
   const closeAllPopups = (svgDoc) => {
-    // Ocultar y eliminar todos los popups persistentes
     const popups = svgDoc.querySelectorAll('[id^="popup_persistent_"], [id^="popup_"]');
     popups.forEach((popup) => popup.style.display = 'none');
   };
@@ -156,7 +151,6 @@ const DesktopInteractiveMap = () => {
   const resetAllParcelColors = (svgDoc, parcels) => {
     parcels.forEach((area) => {
       const parcelId = area.getAttribute('id').replace('parcela_roja_', '');
-      // Restaurar color original solo si no es la parcela activa
       if (parcelId !== activeParcel) {
         changeParcelColor(svgDoc, parcelId, originalColor);
       }
@@ -166,22 +160,22 @@ const DesktopInteractiveMap = () => {
   const handleCloseListing = () => {
     const svgDoc = document.getElementById('map').contentDocument;
     if (svgDoc && activeParcel) {
-      // Restablecer el color de la parcela activa al color original
       changeParcelColor(svgDoc, activeParcel, originalColor);
-
-      // Restablecer el color de todas las demás parcelas
       const parcels = Array.from(svgDoc.querySelectorAll('[id^="parcela_roja_"]'));
       resetAllParcelColors(svgDoc, parcels);
-
-      // Cerrar todos los popups
       closeAllPopups(svgDoc);
     }
 
-    // Limpiar la parcela activa y la variable global
     setActiveParcel(null);
     activeParcelMouseOut = null;
   };
 
+  const handleViewDetails = () => {
+    if (activeParcel) {
+      window.open(`/predios/${activeParcel}`, '_blank');
+    }
+  };
+  
   return (
     <>
       {error ? (
@@ -201,13 +195,22 @@ const DesktopInteractiveMap = () => {
               style={{ top: `${popupPosition.top}px`, left: `${popupPosition.left}px` }}
             >
               <PropertyListing lotNumber={`LP 0${activeParcel}`} onClose={handleCloseListing} />
-              <button 
-                ref={closeButtonRef}
-                className={styles.closeButton} 
-                onClick={handleCloseListing}
-              >
-                X
-              </button>
+              <div className={styles.buttons}>
+                <button 
+                  ref={closeButtonRef}
+                  className={styles.closeButton} 
+                  onClick={handleCloseListing}
+                >
+                  X
+                </button>
+                <button 
+                  className={styles.detailsButton} 
+                  onClick={handleViewDetails}
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} /> {/* Ícono de flecha */}
+                </button>
+              </div>
+             
             </div>
           )}
         </>

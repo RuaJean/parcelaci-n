@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import PropertyListing from './PropertyListing';
 import styles from '../styles/MobileInteractiveMap.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const MobileInteractiveMap = () => {
   const [error, setError] = useState(false);
@@ -160,6 +162,11 @@ const MobileInteractiveMap = () => {
       );
     }
   }, [zoomLevel]);
+  const handleViewDetails = () => {
+    if (activeParcel) {
+      window.open(`/predios/${activeParcel}`, '_blank');
+    }
+  };
 
   return (
     <>
@@ -186,13 +193,21 @@ const MobileInteractiveMap = () => {
               className={styles.propertyListingContainer}
             >
               <PropertyListing lotNumber={`LP 0${activeParcel}`} onClose={handleCloseListing} />
-              <button 
-                ref={closeButtonRef}
-                className={styles.closeButton} 
-                onClick={handleCloseListing}
-              >
-                X
-              </button>
+              <div className={styles.buttons}>
+                <button 
+                  ref={closeButtonRef}
+                  className={styles.closeButton} 
+                  onClick={handleCloseListing}
+                >
+                  X
+                </button>
+                <button 
+                  className={styles.detailsButton} 
+                  onClick={handleViewDetails}
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} /> {/* Ícono de flecha */}
+                </button>
+              </div>
             </div>
           )}
         </div>

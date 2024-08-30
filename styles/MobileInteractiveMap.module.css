@@ -168,16 +168,16 @@
   overflow: scroll;
 }
 .closeButton {
-  margin-top: 15%;
-  position: absolute;
+  /* position: absolute;
   top: 10px;
   right: 10px;
   background: #fff;
-  border: none;
+  border: none; */
   cursor: pointer;
   font-size: 24px;
   color: #000;
 }
+
 
   /* New styles */
 
@@ -243,6 +243,48 @@
     width: 100%; /* Inicialmente ocupa todo el contenedor */
     height: auto;
   }
+
+.detailsButton {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.detailsButton:hover {
+  background-color: #005bb5;
+}
+.buttons{
+  width: 92%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  /* background: #fff; */
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #000;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+.detailsButton {
+  background: none;
+  border: none;
+  color: #0070f3;
+  background-color: white;
+  cursor: pointer;
+  font-size: 24px; /* Ajusta el tamaño del ícono */
+  padding: 0;
+  margin-top: 10px;
+}
+
+.detailsButton:hover {
+  color: white;
+}
   
     
   

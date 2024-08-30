@@ -1,0 +1,131 @@
+/* Component.module.css */
+
+.container {
+    max-width: 72rem; /* Aproximadamente 6xl */
+    margin: 0 auto;
+    padding: 3rem 1rem; /* py-12 px-4 */
+  }
+  
+  @media (min-width: 640px) {
+    .container {
+      padding: 4rem 1.5rem; /* sm:py-16 sm:px-6 */
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container {
+      padding: 5rem 2rem; /* lg:py-20 lg:px-8 */
+    }
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem; /* gap-8 */
+  
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr); /* lg:grid-cols-2 */
+      gap: 3rem; /* lg:gap-12 */
+    }
+  }
+  
+  .image-container {
+    position: relative;
+    border-radius: 0.5rem; /* rounded-lg */
+    overflow: hidden;
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 800 / 600;
+  }
+  
+  .content {
+    display: grid;
+    gap: 1.5rem; /* space-y-6 */
+  }
+  
+  .title {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700; /* font-bold */
+    letter-spacing: -0.025em; /* tracking-tight */
+  }
+  
+  @media (min-width: 640px) {
+    .title {
+      font-size: 2.25rem; /* sm:text-4xl */
+    }
+  }
+  
+  .subtitle {
+    color: #6b7280; /* text-muted-foreground */
+    font-size: 1.125rem; /* text-lg */
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; /* gap-4 */
+  }
+  
+  .info-item h3 {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 500; /* font-medium */
+  }
+  
+  .info-item p {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700; /* font-bold */
+  }
+  
+  .prose h2 {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700; /* font-bold */
+  }
+  
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* gap-4 */
+  }
+  
+  @media (min-width: 640px) {
+    .buttons {
+      flex-direction: row; /* sm:flex-row */
+    }
+  }
+  
+  .button {
+    flex: 1;
+  }
+  
+  .button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem; /* Tamaño del botón */
+    font-size: 1.125rem; /* Texto grande */
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    background-color: #007bff; /* Color de fondo para el botón principal */
+    border: none;
+    border-radius: 0.375rem; /* Esquinas redondeadas */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #0056b3; /* Fondo al pasar el cursor */
+  }
+  
+  .button-outline {
+    background-color: transparent;
+    color: #007bff; /* Color de texto */
+    border: 2px solid #007bff; /* Borde para el botón outline */
+  }
+  
+  .button-outline:hover {
+    background-color: #007bff; /* Fondo al pasar el cursor */
+    color: white;
+  }

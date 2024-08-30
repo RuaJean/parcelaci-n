@@ -141,66 +141,36 @@
 // }
 
 // components/PropertyListing.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Heart, Info, Home, DollarSign, MapPin } from 'lucide-react'; // Añadimos los íconos necesarios
+import { Heart, Info, Home, DollarSign, MapPin } from 'lucide-react';
 import styles from '../styles/PropertyListing.module.css';
 
 export default function PropertyListing({ lotNumber }) {
+  const [propertyData, setPropertyData] = useState(null);
+
   // Extraer el valor de activeParcel usando una expresión regular
   const parcelRegex = /LP 0(\d+)/;
   const match = lotNumber.match(parcelRegex);
   const activeParcel = match ? match[1] : null;
 
+  useEffect(() => {
+    const fetchPropertyData = async () => {
+      const response = await fetch('/ProductDetails.json'); // Ruta al archivo JSON
+      const data = await response.json();
+      setPropertyData(data);
+    };
+
+    fetchPropertyData();
+  }, []);
+
   if (!activeParcel) {
     return <p>Datos inválidos para la parcela.</p>;
   }
 
-  // Datos dinámicos simulados basados en el activeParcel
-  const propertyData = {
-    "1": {
-      price: "$28.400.000",
-      location: "Colombia",
-      size: "M2 5,367",
-      image: "/finca1.png",
-      details: {
-        type: "Farm Land Sale",
-        plotArea: "1 Acre",
-        listedBy: "Agent",
-        length: "208.71 Feet",
-        breadth: "208.71 Feet",
-        facing: "South",
-      },
-    },
-    "2": {
-      price: "$30.000.000",
-      location: "Colombia",
-      size: "M2 6,000",
-      image: "/finca2.png",
-      details: {
-        type: "Farm Land Sale",
-        plotArea: "1.2 Acre",
-        listedBy: "Owner",
-        length: "220.00 Feet",
-        breadth: "210.00 Feet",
-        facing: "North",
-      },
-    },
-    "3": {
-      price: "$10.000.000",
-      location: "Colombia",
-      size: "M2 1,000",
-      image: "/finca3.png",
-      details: {
-        type: "Farm Land Sale",
-        plotArea: "1.2 Acre",
-        listedBy: "Owner",
-        length: "220.00 Feet", 
-        breadth: "210.00 Feet",
-        facing: "North",
-      },
-    },
-  };
+  if (!propertyData) {
+    return <p>Cargando datos...</p>;
+  }
 
   const property = propertyData[activeParcel];
 
