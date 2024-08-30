@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import InteractiveMap from '../components/InteractiveMap';
+import InteractiveMapPage from '../components/InteractiveMapPage';
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <InteractiveMap />
+        <InteractiveMapPage />
       </main>
     </div>
   );
