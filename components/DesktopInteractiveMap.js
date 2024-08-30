@@ -8,7 +8,8 @@ const DesktopInteractiveMap = () => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const propertyListingRef = useRef(null);
   const closeButtonRef = useRef(null);
-  const originalColorsRef = useRef({}); // Para almacenar los colores originales
+  const originalColor = '#ff4f4f'; // Color original de las parcelas
+  const hoverAndClickColor = '#8B0000'; // Color al pasar el mouse o hacer clic
 
   useEffect(() => {
     const mapElement = document.getElementById('map');
@@ -23,10 +24,10 @@ const DesktopInteractiveMap = () => {
 
       const parcels = Array.from(svgDoc.querySelectorAll('[id^="parcela_roja_"]'));
 
-      // Guardar los colores originales
+      // Establecer el color original de todas las parcelas al cargar el mapa
       parcels.forEach((area) => {
         const parcelId = area.getAttribute('id').replace('parcela_roja_', '');
-        originalColorsRef.current[parcelId] = area.style.fill || '#ff4f4f'; // Guarda el color original
+        changeParcelColor(svgDoc, parcelId, originalColor);
       });
 
       parcels.forEach((area) => {
@@ -56,7 +57,7 @@ const DesktopInteractiveMap = () => {
           }
 
           // Cambiar el color de la parcela seleccionada
-          changeParcelColor(svgDoc, parcelId, '#8B0000'); // Rojo para la parcela activa
+          changeParcelColor(svgDoc, parcelId, hoverAndClickColor); // Rojo oscuro para la parcela activa
 
           // Crear un nuevo popup persistente para el área clicada
           createPersistentPopup(svgDoc, parcelId);
@@ -65,16 +66,16 @@ const DesktopInteractiveMap = () => {
         area.addEventListener('click', handleClick);
 
         area.addEventListener('mouseover', () => {
-          const img = svgDoc.getElementById(`popup_${parcelId}`);
-          if (img && parcelId !== activeParcel) {
-            img.style.display = 'block';
+          // Cambiar el color de la parcela al pasar el mouse solo si no es la activa
+          if (parcelId !== activeParcel) {
+            changeParcelColor(svgDoc, parcelId, hoverAndClickColor);
           }
         });
 
-        area.addEventListener('mouseout', () => {
-          const img = svgDoc.getElementById(`popup_${parcelId}`);
-          if (img && parcelId !== activeParcel) {
-            img.style.display = 'none';
+        area.addEventListener('mouseout', (event) => {
+          // Asegurarse de que activeParcel no es null
+          if (activeParcel !== null && parcelId !== activeParcel) {
+            changeParcelColor(svgDoc, parcelId, originalColor);
           }
         });
 
@@ -149,8 +150,10 @@ const DesktopInteractiveMap = () => {
   const resetAllParcelColors = (svgDoc, parcels) => {
     parcels.forEach((area) => {
       const parcelId = area.getAttribute('id').replace('parcela_roja_', '');
-      const originalColor = originalColorsRef.current[parcelId] || '##ff4f4f';
-      changeParcelColor(svgDoc, parcelId, originalColor); // Restablece el color original
+      // Restaurar color original solo si no es la parcela activa
+      if (parcelId !== activeParcel) {
+        changeParcelColor(svgDoc, parcelId, originalColor);
+      }
     });
   };
 
