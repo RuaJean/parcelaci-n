@@ -31,6 +31,14 @@ const DesktopInteractiveMap = () => {
 
           // Actualizar la parcela activa
           setActiveParcel(parcelId);
+        
+          // const svgDoc = document.getElementById('map').contentDocument;
+          // if (svgDoc) {
+          //   // Restablecer el color de la parcela activa al color original (asumo que era negro, puedes cambiarlo si era otro color)
+          //   changeParcelColor(svgDoc, activeParcel, '#000000');
+          //   closeAllPopups(svgDoc);
+          // }
+          // setActiveParcel(null);
 
           // Obtener la posición del popup temporal asociado al área
           const tempPopup = svgDoc.getElementById(`popup_${parcelId}`);
@@ -44,6 +52,9 @@ const DesktopInteractiveMap = () => {
 
             setPopupPosition({ top, left });
           }
+
+          // Cambiar el color de la parcela seleccionada
+          changeParcelColor(svgDoc, parcelId, '#000000'); // Rojo para la parcela activa
 
           // Crear un nuevo popup persistente para el área clicada
           createPersistentPopup(svgDoc, parcelId);
@@ -126,9 +137,19 @@ const DesktopInteractiveMap = () => {
     popups.forEach((popup) => popup.style.display = 'none');
   };
 
+  const changeParcelColor = (svgDoc, parcelId, color) => {
+    alert("HOLA")
+    const area = svgDoc.getElementById(`parcela_roja_${parcelId}`);
+    if (area) {
+      area.style.fill = color;
+    }
+  };
+
   const handleCloseListing = () => {
     const svgDoc = document.getElementById('map').contentDocument;
     if (svgDoc) {
+      // Restablecer el color de la parcela activa al color original (asumo que era negro, puedes cambiarlo si era otro color)
+      changeParcelColor(svgDoc, activeParcel, '#ff4f4f');
       closeAllPopups(svgDoc);
     }
     setActiveParcel(null);
@@ -147,7 +168,8 @@ const DesktopInteractiveMap = () => {
             className={styles.mapSvg}
           ></object>
           {activeParcel && (
-            <div
+            <div 
+            
               ref={propertyListingRef}
               className={styles.propertyListingContainer}
               style={{ top: `${popupPosition.top}px`, left: `${popupPosition.left}px` }}
