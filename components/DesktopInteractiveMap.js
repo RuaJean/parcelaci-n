@@ -2,6 +2,9 @@ import { useEffect, useState, useRef } from 'react';
 import PropertyListing from '../components/PropertyListing';
 import styles from '../styles/DesktopInteractiveMap.module.css';
 
+// Variable global para manejar el mouseout
+let activeParcelMouseOut = null;
+
 const DesktopInteractiveMap = () => {
   const [error, setError] = useState(false);
   const [activeParcel, setActiveParcel] = useState(null);
@@ -40,6 +43,9 @@ const DesktopInteractiveMap = () => {
           // Actualizar la parcela activa
           setActiveParcel(parcelId);
 
+          // Actualizar la variable global activeParcelMouseOut
+          activeParcelMouseOut = parcelId;
+
           // Cerrar todos los popups existentes
           closeAllPopups(svgDoc);
 
@@ -72,9 +78,9 @@ const DesktopInteractiveMap = () => {
           }
         });
 
-        area.addEventListener('mouseout', (event) => {
-          // Asegurarse de que activeParcel no es null
-          if (activeParcel !== null && parcelId !== activeParcel) {
+        area.addEventListener('mouseout', () => {
+          // Cambiar el color de la parcela solo si no es la activa ni la manejada en el mouseout
+          if (parcelId !== activeParcelMouseOut) {
             changeParcelColor(svgDoc, parcelId, originalColor);
           }
         });
@@ -159,13 +165,21 @@ const DesktopInteractiveMap = () => {
 
   const handleCloseListing = () => {
     const svgDoc = document.getElementById('map').contentDocument;
-    if (svgDoc) {
-      // Restablecer el color de todas las áreas rojas al color original
+    if (svgDoc && activeParcel) {
+      // Restablecer el color de la parcela activa al color original
+      changeParcelColor(svgDoc, activeParcel, originalColor);
+
+      // Restablecer el color de todas las demás parcelas
       const parcels = Array.from(svgDoc.querySelectorAll('[id^="parcela_roja_"]'));
       resetAllParcelColors(svgDoc, parcels);
+
+      // Cerrar todos los popups
       closeAllPopups(svgDoc);
     }
+
+    // Limpiar la parcela activa y la variable global
     setActiveParcel(null);
+    activeParcelMouseOut = null;
   };
 
   return (
