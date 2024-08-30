@@ -131,3 +131,91 @@
     cursor: pointer;
   } */
   
+  /* nuevos estilos:styles/PropertyListing.module.css */
+/* styles/PropertyListing.module.css */
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  margin: 20px auto;
+}
+
+.image {
+  border-radius: 10px 10px 0 0;
+}
+
+.info {
+  padding: 15px 0;
+}
+
+.priceContainer, .locationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.location {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.details {
+  font-size: 14px;
+  color: #555;
+}
+
+.iconDetails {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+.extraInfo {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.reserveButton {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+}
+
+.reserveButton:hover {
+  background-color: #218838;
+}
+
+.icon {
+  color: #555;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+.dataDiv{
+  display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+  

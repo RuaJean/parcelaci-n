@@ -162,10 +162,13 @@
   max-width: 600px;
   background-color: white;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
+  height: 100%;
+  overflow: scroll;
 }
 .closeButton {
+  margin-top: 15%;
   position: absolute;
   top: 10px;
   right: 10px;
