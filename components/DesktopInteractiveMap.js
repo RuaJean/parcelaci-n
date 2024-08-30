@@ -138,7 +138,6 @@ const DesktopInteractiveMap = () => {
   };
 
   const changeParcelColor = (svgDoc, parcelId, color) => {
-    alert("HOLA")
     const area = svgDoc.getElementById(`parcela_roja_${parcelId}`);
     if (area) {
       area.style.fill = color;
