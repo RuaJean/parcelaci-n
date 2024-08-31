@@ -108,7 +108,7 @@
     font-weight: 700;
     text-align: center;
     color: white;
-    background-color: #007bff; /* Color de fondo para el botón principal */
+    background-color: #22BB9B; /* Color de fondo para el botón principal */
     border: none;
     border-radius: 0.375rem; /* Esquinas redondeadas */
     cursor: pointer;
@@ -116,16 +116,16 @@
   }
   
   .button:hover {
-    background-color: #0056b3; /* Fondo al pasar el cursor */
+    background-color: #218838; /* Fondo al pasar el cursor */
   }
   
   .button-outline {
     background-color: transparent;
-    color: #007bff; /* Color de texto */
-    border: 2px solid #007bff; /* Borde para el botón outline */
+    color: #22BB9B; /* Color de texto */
+    border: 2px solid #22BB9B; /* Borde para el botón outline */
   }
   
   .button-outline:hover {
-    background-color: #007bff; /* Fondo al pasar el cursor */
+    background-color: #218838; /* Fondo al pasar el cursor */
     color: white;
   }

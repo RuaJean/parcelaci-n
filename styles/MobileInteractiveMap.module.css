@@ -274,7 +274,7 @@
 .detailsButton {
   background: none;
   border: none;
-  color: #0070f3;
+  color: #28a745;
   background-color: white;
   cursor: pointer;
   font-size: 24px; /* Ajusta el tamaño del ícono */
@@ -283,7 +283,7 @@
 }
 
 .detailsButton:hover {
-  color: white;
+  color: #218838;
 }
   
     

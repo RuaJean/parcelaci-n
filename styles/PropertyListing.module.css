@@ -162,7 +162,7 @@
 .price {
   font-size: 24px;
   font-weight: bold;
-  color: #28a745;
+  color: #22BB9B;
 }
 
 .location {
@@ -192,7 +192,7 @@
 }
 
 .reserveButton {
-  background-color: #28a745;
+  background-color: #22BB9B;
   color: white;
   padding: 10px 20px;
   border: none;
