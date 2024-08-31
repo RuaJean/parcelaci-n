@@ -15,7 +15,7 @@ const Header = () => {
       <div className={styles.container}>
         <div className={styles.logo}>
           <Link href="/">
-            <Image src="/isotipo.png" alt="Logo" width={70} height={70} />
+            <Image src="/favicon.png" alt="Logo" width={70} height={70} />
           </Link>
         </div>
         <nav className={`${styles.nav} ${isOpen ? styles.open : ''}`}>
