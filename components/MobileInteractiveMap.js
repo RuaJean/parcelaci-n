@@ -57,12 +57,12 @@ const MobileInteractiveMap = () => {
 
         area.addEventListener('click', handleClick);
 
-        area.addEventListener('mouseover', () => {
-          const img = svgDoc.getElementById(`popup_${parcelId}`);
-          if (img) {
-            img.style.display = 'block';
-          }
-        });
+        // area.addEventListener('mouseover', () => {
+        //   const img = svgDoc.getElementById(`popup_${parcelId}`);
+        //   if (img) {
+        //     img.style.display = 'block';
+        //   }
+        // });
 
         area.addEventListener('mouseout', () => {
           const img = svgDoc.getElementById(`popup_${parcelId}`);

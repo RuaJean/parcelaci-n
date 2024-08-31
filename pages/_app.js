@@ -1,5 +1,13 @@
-import '../global.css'
+import '../styles/global.css'; 
+import Header from '../components/Header'; // Ajusta la ruta si es necesario
 
-export default function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <Header />
+      <Component {...pageProps} />
+    </>
+  );
 }
+
+export default MyApp;
